@@ -12,12 +12,14 @@ fn conv(c: char) -> char {
     const SUBS_O: &str ="aaaaaaaaaacccddeeeeeeeegghiiiiiiiilmnnnnoooooooooprrsssssttuuuuuuuuuwxyyzzz";
     let mut flag : bool = false;
     let mut i = 0;
-    for char in SUBS_I.chars(){
-        if c == char{
+    for chara in SUBS_I.chars(){
+        if c == chara{
             flag = true;
             break;
         }
-        i+=1;
+        else{
+            i+=1;
+        }
     }
     if flag == true{
         return SUBS_O.chars().nth(i).unwrap();

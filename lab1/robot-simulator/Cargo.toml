@@ -2,3 +2,13 @@
 edition = "2021"
 name = "robot-simulator"
 version = "2.2.0"
+
+[dependencies]
+clap = { version= "4.2.0", features = ["derive"] }
+
+
+
+[[bin]]
+name = "robot-simulator"
+path = "src/lib.rs"
+
