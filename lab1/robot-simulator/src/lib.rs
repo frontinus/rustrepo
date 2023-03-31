@@ -17,7 +17,7 @@ struct Args {
     instruct: String,
 }
 
-#[derive(PartialEq, Eq, Debug)]
+#[derive(PartialEq, Eq, Debug,Clone)]
 pub enum Direction {
     North,
     East,
@@ -31,6 +31,13 @@ pub struct Robot{
     direzione: Direction,
 }
 
+const DIREZIONI: &[Direction] = &[
+    Direction::North,
+    Direction::East,
+    Direction::South,
+    Direction::West,
+];
+
 impl Robot {
     pub fn new(x: i32, y: i32, d: Direction) -> Self {
         Self{
@@ -43,39 +50,43 @@ impl Robot {
     #[must_use]
     pub fn turn_right(self) -> Self {
         //let returnrobot =
-        match self.direzione{
+        let new_direction = (self.direzione as usize + 1) % DIREZIONI.len();
+        Robot::new(self.lat, self.long, DIREZIONI[new_direction].clone())
+        /*match self.direzione{
             Direction::North =>  Robot::new(self.lat,self.long,Direction::East),//self.direzione = Direction::East,
             Direction::East =>  Robot::new(self.lat,self.long,Direction::South),//self.direzione = Direction::South,
             Direction::South => Robot::new(self.lat,self.long,Direction::West),//self.direzione = Direction::West,
             Direction::West => Robot::new(self.lat,self.long,Direction::North),//self.direzione = Direction::North,
-        }
+        }*/
         //return returnrobot;
     }
 
     #[must_use]
     pub fn turn_left(self) -> Self {
         //let returnrobot = 
-        
-        match self.direzione{
+        let new_direction = (self.direzione as usize + DIREZIONI.len() - 1) % DIREZIONI.len();
+        Robot::new(self.lat, self.long, DIREZIONI[new_direction].clone())
+        /*match self.direzione{
         
 
             Direction::North =>  Robot::new(self.lat,self.long,Direction::West),//self.direzione = Direction::East,
             Direction::East =>  Robot::new(self.lat,self.long,Direction::North),//self.direzione = Direction::South,
             Direction::South => Robot::new(self.lat,self.long,Direction::East),//self.direzione = Direction::West,
             Direction::West => Robot::new(self.lat,self.long,Direction::South),//self.direzione = Direction::North,
-        }
+        }*/
         //return returnrobot;
     }
 
     #[must_use]
     pub fn advance(self) -> Self {
         //let returnrobot = 
-        match self.direzione{
-            Direction::North => Robot::new(self.lat,self.long +1,self.direzione),//self.long += 1,
-            Direction::East => Robot::new(self.lat+1,self.long,self.direzione),//self.lat += 1,
-            Direction::South => Robot::new(self.lat,self.long -1,self.direzione),//self.long += -1,
-            Direction::West => Robot::new(self.lat-1,self.long ,self.direzione),//self.lat += -1,
-        }
+        let (lat, long) = match self.direzione {
+            Direction::North => (self.lat, self.long + 1),
+            Direction::East => (self.lat + 1, self.long),
+            Direction::South => (self.lat, self.long - 1),
+            Direction::West => (self.lat - 1, self.long),
+        };
+        Robot::new(lat, long, self.direzione)
         //return returnrobot;
     }
 
